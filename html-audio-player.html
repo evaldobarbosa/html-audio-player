@@ -53,11 +53,7 @@ Example:
       _setSrc: function() {
         var self = this;
 
-        this.status = 'UNLOADED';
-
-        this.$.x145od00.onloadeddata = function() {
-          self.status = 'PLAYING';
-        };
+        this.status = 'WAITING';
 
         this.$.x145od00.onplay = function() {
           self.status = 'PLAYING';
@@ -76,11 +72,14 @@ Example:
             player.src = '';
             this.status = 'STOPPED';
             break;
+          case 'WAITING':
           case 'STOPPED':
+          case 'READY':
           case 'LOADING':
             player.src = this.src;
             player.load();
             player.play();
+            this.status = 'PLAYING';
             break;
         }
       }

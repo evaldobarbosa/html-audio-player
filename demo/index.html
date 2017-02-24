@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>html-audio-player demo</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../html-audio-player.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+    </style>
+  </head>
+  <body>
+    <div class="vertical-section-container centered">
+      <h3>Basic html-audio-player demo</h3>
+      <demo-snippet>
+        <template>
+
+<dom-module id='my-app'>
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <html-audio-player 
+      src="http://stream.radioreklama.bg:80/nrj.ogg" 
+      id="player">
+    </html-audio-player>
+
+    <paper-button raised on-tap="toggle">{{label}}</paper-button>
+    
+  </template>
+  <script>
+    Polymer({
+      is: 'my-app',
+      properties: {
+        label: {
+          type: String,
+          value: 'PLAY'
+        }
+      },
+      toggle: function() {
+        this.$.player.toggle();
+
+        switch( this.$.player.status ) {
+          case 'PLAYING':
+            this.label = 'STOP';
+            break;
+          default:
+            this.label = 'PLAY';
+            break;
+        }
+
+        console.log(this.$.player.status)
+      }
+    });
+  </script>
+</dom-module>
+
+<my-app></my-app>
+
+        </template>
+      </demo-snippet>
+    </div>
+  </body>
+</html>

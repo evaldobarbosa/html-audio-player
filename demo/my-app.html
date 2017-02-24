@@ -1,0 +1,44 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<link rel="stylesheet" href="../html-audio-player.html">
+
+<dom-module id='my-app'>
+	<template>
+		<style>
+			:host {
+				display: block;
+			}
+		</style>
+
+		<html-audio-player 
+      src="http://stream.radioreklama.bg:80/nrj.ogg" 
+      id="player">
+    </html-audio-player>
+
+    <paper-button raised on-tap="toggle">{{label}}</paper-button>
+		
+	</template>
+	<script>
+		Polymer({
+			is: 'my-app',
+			properties: {
+				label: {
+					type: String,
+					value: 'PLAY'
+				}
+			},
+			toggle: function() {
+				this.$.player.toggle();
+
+				switch( this.$.player.status ) {
+					case 'PLAYING':
+						this.label = 'STOP';
+						break;
+					default:
+						this.label = 'PLAY';
+						break;
+				}
+			}
+		});
+	</script>
+</dom-module>

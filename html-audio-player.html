@@ -1,0 +1,89 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+`html-audio-player`
+
+Simple Audio Player
+
+Example:
+
+    <html-audio-player 
+      src="http://stream.radioreklama.bg:80/nrj.ogg" 
+      id="player">
+    </html-audio-player>
+
+@demo demo/index.html
+-->
+
+<dom-module id="html-audio-player">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <audio src="{{src}}" id="x145od00" volume="1"></audio>
+    
+  </template>
+  <script>
+    Polymer({
+      is: 'html-audio-player',
+      properties: {
+        src: {
+          type: String,
+          notify: true,
+          reflectToAttribute: true,
+          observer: '_setSrc'
+        },
+        duration: {
+          type: String,
+          value: 0
+        },
+        status: {
+          type: String,
+          notify: true,
+          reflectToAttribute: true,
+          observer: '_setStatus'
+        }
+      },
+      _setStatus: function() {
+        this.duration = this.$.x145od00.duration;
+      },
+      _setSrc: function() {
+        var self = this;
+
+        this.status = 'UNLOADED';
+
+        this.$.x145od00.onloadeddata = function() {
+          self.status = 'PLAYING';
+        };
+
+        this.$.x145od00.onplay = function() {
+          self.status = 'PLAYING';
+        };
+
+        this.$.x145od00.onpause = function() {
+          self.status = 'STOPPED';
+        };
+      },
+      toggle: function() {
+        var player = this.$.x145od00;
+
+        switch ( this.status ) {
+          case 'PLAYING':
+            player.pause();
+            player.src = '';
+            this.status = 'STOPPED';
+            break;
+          case 'STOPPED':
+          case 'LOADING':
+            player.src = this.src;
+            player.load();
+            player.play();
+            break;
+        }
+      }
+    });
+  </script>
+</dom-module>
